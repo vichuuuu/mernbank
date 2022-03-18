@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import './delete.css'
 import axios from 'axios'
-import './loging.css'
 
+function Delete() {
 
-function Dashboard() {
 
     const [user, setUser] = useState({
 
         acno: "",
-        password: "",
-        amount: 0
+        password: ""
+
     })
     const handleChange = e => {
 
@@ -20,47 +20,40 @@ function Dashboard() {
         })
     }
 
-
-    const deposit = async (e) => {
-        e.preventDefault()
+    const deleteacc = async () => {
         const acno = JSON.parse(localStorage.getItem("acno"))
         const password = JSON.parse(localStorage.getItem("password"))
         const tokens = (localStorage.getItem('token'))
-        const amount = user.amount
         const datas = {
-            acno, password, amount
+            acno, password
         }
         if (user.acno == acno) {
             if (user.password == password) {
-                axios.post("http://localhost:4000/deposit", datas, { headers: { 'x-access-token': `${tokens}` } })
+                axios.post("http://localhost:4000/deleteacc", datas, { headers: { 'x-access-token': `${tokens}` } })
                     .then(res => alert(res.data.message))
-            } else {
+
+            }
+
+            else {
                 alert("password is not correct")
             }
         } else {
-            alert("not  exist")
+            alert("NO such account")
         }
-        // if (datas) {
-        //      axios.post("http://localhost:4000/deposit", datas, { headers: { 'x-access-token': `${tokens}` } })
-        //         .then(res => alert(res.data.message))
-        // }
-
     }
-
-
-
     return (
+
         <div className='login'>
 
-            <h1>DEPOSIT</h1>
+            <h1>DELETE</h1>
             <input type="text" name="acno" value={user.acno} placeholder='enter account number' onChange={handleChange} required></input>
             <input type="password" name="password" value={user.password} placeholder='enter password' onChange={handleChange} required></input>
-            <input type="Number" name="amount" value={user.amount} placeholder='enter amount' onChange={handleChange} required></input>
-            <div className='button' onClick={deposit}>Deposit</div>
-            
-            </div>
-         
+
+            <div className='button' onClick={deleteacc}>Delete your account</div>
+
+        </div>
     )
+
 }
 
-export default Dashboard
+export default Delete

@@ -1,6 +1,7 @@
 import React ,{useState} from 'react'
 import './loging.css'
  import axios from 'axios'
+ import {useNavigate} from 'react-router-dom'
 
 function Registration() {
     const [user,setUser]=useState({
@@ -18,11 +19,14 @@ function Registration() {
         })
     }
 
+    let navigate=useNavigate()
+
     const register=()=>{
         const {uname,acno,password}=user
         if(uname&&acno&&password){
             axios.post("http://localhost:4000/register",user)
             .then(res=>alert(res.data.message))
+            navigate("/")
             // alert("posted")
         }else{
             alert("invalid form")
